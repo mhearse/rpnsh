@@ -1,14 +1,24 @@
 #!/usr/bin/env python
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+import os
 
-print bcolors.WARNING + "Warning: No active frommets remain. Continue?" 
-+ bcolors.ENDC
+class bcolors:
+    ENDC      = '\033[0m'
+    BOLD      = '\033[1m'
+    UNDERLINE = '\033[4m'
+    INVERSE   = '\033[7m'
+
+print bcolors.INVERSE + "Warning: No active frommets remain. Continue?" + bcolors.ENDC
+
+history_dict = {}
+with open(os.path.join(os.path.expanduser('~'),'.bash_history')) as f:
+    for line in f:
+        if history_dict.get(line):
+            history_dict[line] += 1
+        else:
+            history_dict[line] = 1
+
+
+from pprint import *
+
+pprint(history_dict)
