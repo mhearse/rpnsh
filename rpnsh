@@ -13,12 +13,13 @@ print bcolors.INVERSE + "Warning: No active frommets remain. Continue?" + bcolor
 history_dict = {}
 with open(os.path.join(os.path.expanduser('~'),'.bash_history')) as f:
     for line in f:
-        if history_dict.get(line):
-            history_dict[line] += 1
+        chomped = line.rstrip()
+        if history_dict.get(chomped):
+            history_dict[chomped] += 1
         else:
-            history_dict[line] = 1
+            history_dict[chomped] = 1
 
+for cmd, cnt in history_dict.iteritems():
+    print "%s %-100s" % (cmd, cnt)
 
-from pprint import *
-
-pprint(history_dict)
+# sort by count
