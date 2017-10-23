@@ -1,25 +1,65 @@
 #!/usr/bin/env python
 
-import os
+try:
+    import os
+    import sys
+    from pprint import *
+except ImportError, err:
+    print "Error Importing module. %s" % (err)
+    sys.exit()
 
-class bcolors:
+class tcolors:
     ENDC      = '\033[0m'
     BOLD      = '\033[1m'
     UNDERLINE = '\033[4m'
     INVERSE   = '\033[7m'
 
-print bcolors.INVERSE + "Warning: No active frommets remain. Continue?" + bcolors.ENDC
+class rpnsh:
+    ##############################################
+    def __init__(self, args=None):
+    ##############################################
+        # Allow args to be optional.
+        args = {} if args is None else args
 
-history_dict = {}
-with open(os.path.join(os.path.expanduser('~'),'.bash_history')) as f:
-    for line in f:
-        chomped = line.rstrip()
-        if history_dict.get(chomped):
-            history_dict[chomped] += 1
+        self.history_dict = {}
+        self.readHistory()
+
+    ##############################################
+    def readHistory(self):
+    ##############################################
+        with open(os.path.join(os.path.expanduser('~'),'.bash_history')) as f:
+            for line in f:
+                line = line.rstrip()
+                if self.history_dict.get(line):
+                    self.history_dict[line] += 1
+                else:
+                    self.history_dict[line] = 1
+
+    ##############################################
+    def outputHistory(self, order=None):
+    ##############################################
+        if not self.history_dict:
+            self.readHistory()
+
+        if order == 'coalesce':
         else:
-            history_dict[chomped] = 1
+            for cmd, cnt in sorted(self.history_dict.iteritems(), key=lambda (k,v): (v,k)):
+                print "{0:60} [{1}]".format(cmd, cnt)
 
-for cmd, cnt in history_dict.iteritems():
-    print "%s %-100s" % (cmd, cnt)
+##############################################
+if __name__=='__main__':
+##############################################
+    obj = rpnsh()
+    obj.outputHistory()
 
-# sort by count
+    print tcolors.INVERSE + "Warning: No active frommets remain. Continue?" + tcolors.ENDC
+
+
+# sort by first word in history
+# coalese output by first command
+
+
+
+
+
+
