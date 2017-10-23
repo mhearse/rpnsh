@@ -7,4 +7,5 @@ All the Linux/Unix shells that I've used over the years have been algebraic.  So
 
 The present effort simply translates RPN style input to bash commands.  It will include a history and command builder.
 
-Proof of concept.
+Still Proof of concept.
+=========
