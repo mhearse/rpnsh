@@ -8,18 +8,19 @@ except ImportError, err:
     print "Error Importing module. %s" % (err)
     sys.exit()
 
-class tcolors:
-    ENDC      = '\033[0m'
-    BOLD      = '\033[1m'
-    UNDERLINE = '\033[4m'
-    INVERSE   = '\033[7m'
-
 class rpnsh:
     ##############################################
     def __init__(self, args=None):
     ##############################################
         # Allow args to be optional.
         args = {} if args is None else args
+
+        self.tcolors = {
+            'ENDC'      : '\033[0m',
+            'BOLD'      : '\033[1m',
+            'UNDERLINE' : '\033[4m',
+            'INVERSE'   : '\033[7m',
+        }
 
         self.history_dict = {}
         self.readHistory()
@@ -42,6 +43,9 @@ class rpnsh:
             self.readHistory()
 
         if order == 'coalesce':
+            # sort by first word in history
+            # coalese output by first command
+            True
         else:
             for cmd, cnt in sorted(self.history_dict.iteritems(), key=lambda (k,v): (v,k)):
                 print "{0:60} [{1}]".format(cmd, cnt)
@@ -52,12 +56,10 @@ if __name__=='__main__':
     obj = rpnsh()
     obj.outputHistory()
 
-    print tcolors.INVERSE + "Warning: No active frommets remain. Continue?" + tcolors.ENDC
+    print obj.tcolors['INVERSE'] + "Warning: No active frommets remain. Continue?" + obj.tcolors['ENDC']
 
 
-# sort by first word in history
-# coalese output by first command
-
+# type :commands type: args
 
 
 
